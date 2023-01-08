@@ -7,6 +7,20 @@ var rm_h = room_height;
 var mx = mouse_x;
 var my = mouse_y;
 
+
+if gamestate != e_gamestate.buy
+{
+	draw_set_font(font_cards_number);
+	var str_len_ = string_width(string(money));
+	draw_set_halign(fa_center);
+	var val_x_ =  rm_w*0.85;
+	var val_y_ = 0;
+	draw_text(val_x_, val_y_, string(money));
+	draw_set_halign(fa_left);
+	draw_sprite_ext(spr_coin, 0, val_x_+ str_len_, val_y_+5, 1, 1, 0, c_white, 1);
+	draw_set_color(c_white);
+}
+
 var current_hand;
 var cardtype_;
 var spr_item_;
@@ -356,6 +370,8 @@ if gamestate != e_gamestate.finish_day && gamestate != e_gamestate.buy && gamest
 						plots[# e_plotinfo.water, p] += resource_cards[# e_cardinfo.water, card_selection];	
 						if plots[# e_plotinfo.water, p] > 10 plots[# e_plotinfo.water, p] = 10;
 						if plots[# e_plotinfo.water, p] < 0 plots[# e_plotinfo.water, p] = 0;
+						
+						plots[# e_plotinfo.grow, p] += resource_cards[# e_cardinfo.growth, card_selection];
 					
 						card_selection = -1;
 						ds_list_delete(resource_hand, card_hand_selection);
@@ -399,6 +415,9 @@ if gamestate != e_gamestate.finish_day && gamestate != e_gamestate.buy && gamest
 
 	if gamestate = e_gamestate.weather_selected
 	{
+		audio_stop_sound(weather_sound_playing);
+		weather_sound_playing = weather_sound[card_selection];
+		audio_play_sound(weather_sound_playing, 1, 1);
 	
 		card_hand_selection = -1;
 		card_selection = -1;
@@ -411,7 +430,7 @@ if gamestate == e_gamestate.resource_selected
 {
 	scr_harvest();
 	scr_deck_fill_hand(seed_deck, seed_hand, 0);
-	scr_deck_fill_hand(weather_deck, weather_hand, 1);
+	scr_deck_fill_weather(weather_deck, weather_hand, 1);
 	scr_deck_fill_hand(resource_deck, resource_hand, 0);
 	gamestate = e_gamestate.finish_day;
 }	
@@ -451,11 +470,12 @@ if gamestate == e_gamestate.finish_day
 		
 			if mouse_check_button_pressed(mb_left)
 			{
+				money_gained_today = 0;
+				plants_died = 0;
+				plants_harvested = 0;
 				if (scr_check_plots_full() == 1 || ds_list_empty(seed_hand)) 
 				{
-					money_gained_today = 0;
-					plants_died = 0;
-					plants_harvested = 0;
+
 					gamestate = e_gamestate.weather_selection;
 				}		
 				else gamestate = e_gamestate.seed_selection;
@@ -470,7 +490,7 @@ if gamestate == e_gamestate.finish_day
 		{
 			draw_set_font(font_cards_number);
 			draw_set_halign(fa_center);
-			draw_text(0.5*rm_w, 0.6*rm_h, string(money_gained_today) + "Need to buy more seeds to sew tomorrow");	
+			draw_text(0.5*rm_w, 0.6*rm_h, "Need to buy more seeds to sew tomorrow");	
 			draw_set_halign(fa_left);
 		}	
 	}	
@@ -491,13 +511,14 @@ if gamestate == e_gamestate.finish_day
 	
 }	
 
-if gamestate == e_gamestate.buy
+if gamestate == e_gamestate.buy && in_shop = true
 {
 	
 	
 	
 	draw_sprite_ext(spr_shop_template, 0, 0, 0, 1, 1, 0, c_white, 1);
 	draw_text(100, 10, "SEEDS");
+	draw_text(100, 25, "Currently in deck: " + string(ds_list_size(seed_deck)) + "/" + string(max_seed_deck) + " max");
 	var shop_init_x = 0 + 10;
 	var shop_init_y = 0 + 40;
 	var shop_x = shop_init_x;
@@ -539,6 +560,7 @@ if gamestate == e_gamestate.buy
 	
 	draw_sprite_ext(spr_shop_template,  0, 0.5*rm_w, 0, 1, 1, 0, c_white, 1);
 	draw_text(300, 10, "RESOURCES");
+	draw_text(300, 25, "Currently in deck: " + string(ds_list_size(resource_deck)) + "/" + string(max_resource_deck) + " max");
 	var shop_init_x = rm_w*0.5 + 10;
 	var shop_init_y = 0 + 40;
 	var shop_x = shop_init_x;
@@ -602,6 +624,9 @@ if gamestate == e_gamestate.buy
 		if mouse_check_button_pressed(mb_left)
 		{
 			gamestate = e_gamestate.finish_day;	
+			in_shop = false;
+			scr_deck_fill_hand(seed_deck, seed_hand, 0);
+			scr_deck_fill_hand(resource_deck, resource_hand, 0);
 		}	
 	}
 	
@@ -611,10 +636,12 @@ if gamestate == e_gamestate.loss
 {
 	draw_set_font(font_bigger);
 	draw_set_halign(fa_center);
-	draw_text(0.5*rm_w, 0.2*rm_h, "Your Farm ran out of Money...");
+	draw_text(0.5*rm_w, 0.2*rm_h, "Your Farm ran out of Money on DAY " + string(day));
 	draw_set_font(font_cards_number);
 	draw_text(0.5*rm_w, 0.4*rm_h, "Press ENTER to start again, or ESC to Exit");
 	draw_set_halign(fa_left);
 	draw_set_font(font_cards_number);
 	if keyboard_check_pressed(vk_enter) game_restart();
 }	
+
+if gamestate = e_gamestate.buy && in_shop == false in_shop = true;

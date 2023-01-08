@@ -55,6 +55,18 @@ money_gained_today = 0;
 plants_harvested = 0;
 plants_died = 0;
 day = 1;
+weather_sound = array_create(8, -1);
+weather_sound[1] = SUNNY;
+weather_sound[2] = RAINY;
+weather_sound[3] = SUNNY;
+weather_sound[4] = SUNNY;
+weather_sound[5] = RAINY;
+weather_sound[6] = SUNNY;
+weather_sound[7] = SNOWY;
+weather_sound[8] = RAINY;
+weather_sound_playing = -1;
+in_shop = false;
+
 #endregion
 
 #region setting up card grids
@@ -69,29 +81,31 @@ weather_deck = ds_list_create();
 weather_deck[| 0] = 1;
 weather_deck[| 1] = 2;
 weather_deck[| 2] = 3;
-weather_deck[| 3] = 1;
-weather_deck[| 4] = 2;
-weather_deck[| 5] = 3;
-weather_deck[| 6] = 1;
-weather_deck[| 7] = 2;
-weather_deck[| 8] = 3;
-weather_deck[| 9] = 1;
-weather_deck[| 10] = 2;
-weather_deck[| 11] = 3;
+weather_deck[| 3] = 4;
+weather_deck[| 4] = 5;
+weather_deck[| 5] = 6;
+weather_deck[| 6] = 7;
+weather_deck[| 7] = 8;
+weather_deck[| 8] = 1;
+weather_deck[| 9] = 2;
+weather_deck[| 10] = 3;
+weather_deck[| 11] = 4;
 
 
 seed_deck = ds_list_create();
 seed_deck[| 0] = 1;
 seed_deck[| 1] = 2;
 seed_deck[| 2] = 3;
+seed_deck[| 3] = 1;
+seed_deck[| 4] = 2;
 
 resource_deck = ds_list_create();
 resource_deck[| 0] = 1;
 resource_deck[| 1] = 2;
-resource_deck[| 2] = 3;
-resource_deck[| 3] = 1;
-resource_deck[| 4] = 2;
-resource_deck[| 5] = 3;
+resource_deck[| 2] = 4;
+resource_deck[| 3] = 5;
+resource_deck[| 4] = 7;
+resource_deck[| 5] = 9;
 
 
 #endregion

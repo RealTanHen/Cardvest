@@ -11,14 +11,14 @@
     "name": "audiogroup_default",
     "path": "audiogroups/audiogroup_default",
   },
-  "soundFile": "MUSIC.mp3",
-  "duration": 59.11508,
+  "soundFile": "RAINY.mp3",
+  "duration": 85.60325,
   "parent": {
     "name": "Sounds",
     "path": "folders/Sounds.yy",
   },
   "resourceVersion": "1.0",
-  "name": "MUSIC",
+  "name": "RAINY",
   "tags": [],
   "resourceType": "GMSound",
 }
