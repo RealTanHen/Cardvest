@@ -1,0 +1,9 @@
+NAME,GROWTH,SUN ,WATER,HARVESTVAL,RANGE
+Sunny,0,5,0,0,0
+Rain,0,0,5,0,0
+Cloudy,0,2,0,0,0
+Scorching,0,8,-3,0,0
+Heavy rain,0,0,8,0,0
+Dark clouds,0,-3,0,0,0
+Snow,0,-5,8,0,0
+Sunny drizzle,0,3,3,0,0

@@ -1,0 +1,12 @@
+NAME,GROWTH,SUN ,WATER,HARVESTVAL,RANGE
+Bucket,0,0,2,0,0
+Hose,0,0,5,0,0
+Sprinkler,0,0,8,0,0
+Lights,0,2,0,0,0
+Solar Lamp,0,5,0,0,0
+Fake Sun,0,8,0,0,0
+Tarp,0,-5,-5,0,0
+Clear tarp,0,0,-5,0,0
+Fertilizer,1,0,0,0,0
+Fertilizer+,2,0,0,0,0
+Fertilizer++,3,0,0,0,0
