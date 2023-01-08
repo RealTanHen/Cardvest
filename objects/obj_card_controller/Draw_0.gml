@@ -428,6 +428,7 @@ if gamestate != e_gamestate.finish_day && gamestate != e_gamestate.buy && gamest
 
 if gamestate == e_gamestate.resource_selected
 {
+	day++;
 	scr_harvest();
 	scr_deck_fill_hand(seed_deck, seed_hand, 0);
 	scr_deck_fill_weather(weather_deck, weather_hand, 1);
